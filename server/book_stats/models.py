@@ -20,6 +20,18 @@ class Book(models.Model):
 
 
 class BookStats(models.Model):
+
+    DONE = "Książka już przeczytana."
+    IN_PROGRESS = "W trakcie czytania."
+    FORSAKEN = "Zrezygnowano z czytania."
+
+    book_states = (
+        (DONE, DONE),
+        (IN_PROGRESS, IN_PROGRESS),
+        (FORSAKEN, FORSAKEN)
+    )
+
+    state = models.CharField(choices = book_states, max_length=30)
     book = models.ForeignKey(Book, on_delete = models.CASCADE)
     user = models.ForeignKey(User)
     on_page = models.IntegerField(default=0)
