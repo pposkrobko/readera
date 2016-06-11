@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 def index(request):
     if request.user.is_authenticated():
-        return render(request, 'user.html')
+        return HttpResponsePermanentRedirect("/stats/user")
     else:
         return render(request, 'index.html')
 
