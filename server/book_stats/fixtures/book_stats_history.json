@@ -1,0 +1,101 @@
+[
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 1,
+    "fields": {
+      "book_stats": 1,
+      "time": "2016-05-15",
+      "pages_read": 30
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 2,
+    "fields": {
+      "book_stats": 1,
+      "time": "2016-05-20",
+      "pages_read": 43
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 3,
+    "fields": {
+      "book_stats": 1,
+      "time": "2016-05-22",
+      "pages_read": 24
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 4,
+    "fields": {
+      "book_stats": 2,
+      "time": "2016-05-11",
+      "pages_read": 89
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 5,
+    "fields": {
+      "book_stats": 2,
+      "time": "2016-05-13",
+      "pages_read": 111
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 6,
+    "fields": {
+      "book_stats": 2,
+      "time": "2016-05-18",
+      "pages_read": 80
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 7,
+    "fields": {
+      "book_stats": 2,
+      "time": "2016-05-23",
+      "pages_read": 30
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 8,
+    "fields": {
+      "book_stats": 2,
+      "time": "2016-05-27",
+      "pages_read": 55
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 9,
+    "fields": {
+      "book_stats": 3,
+      "time": "2016-05-25",
+      "pages_read": 63
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 10,
+    "fields": {
+      "book_stats": 3,
+      "time": "2016-05-30",
+      "pages_read": 80
+    }
+  },
+  {
+    "model": "book_stats.BookStatsHistory",
+    "pk": 11,
+    "fields": {
+      "book_stats": 3,
+      "time": "2016-06-02",
+      "pages_read": 70
+    }
+  }
+]
