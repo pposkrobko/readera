@@ -49,12 +49,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div align="right">
-                <small>Jesteś niezalogowany</small>
-                <a class="btn btn-link" onclick="document.getElementById('register-login-form').style.display='block';">
-                <small>Zaloguj się lub zarejestruj</small>
-                </a>
-            </div>
+            {% include "login-bar.html" %}
 
             <div class="row">
                 <div class="col-md-3" style="padding-right: 0">

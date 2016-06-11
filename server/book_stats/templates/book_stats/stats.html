@@ -48,17 +48,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div align="right">
-                <small>Zalogowano jako</small>
-                <a href="{% url 'profile' %}" class="btn btn-link">
-                    <small>{{ user.username }}</small>
-                </a>&middot<a href="#" class="btn btn-link">
-                <small>Ustawienia</small>
-            </a>&middot<a href="{% url 'logout' %}" class="btn btn-link">
-                <small>Wyloguj</small>
-            </a>
-
-            </div>
+            {% include "login-bar.html" %}
 
             <div class="row">
                 <div class="col-md-3" style="padding-right: 0">
