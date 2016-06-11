@@ -90,13 +90,13 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <p class="text-center"><strong style="font-size: x-large">79</strong><br>liczba książek</p>
+                    <p class="text-center"><strong style="font-size: x-large">{{ book__count }}</strong><br>liczba książek</p>
                 </div>
                 <div class="col-md-4">
-                    <p class="text-center"><strong style="font-size: x-large">25359</strong><br>łącznie stron</p>
+                    <p class="text-center"><strong style="font-size: x-large">{{ on_page__sum }}</strong><br>łącznie stron</p>
                 </div>
                 <div class="col-md-4">
-                    <p class="text-center"><strong style="font-size: x-large">321</strong><br>średnia długość książki</p>
+                    <p class="text-center"><strong style="font-size: x-large">{{ book__max_pages__avg|floatformat:"1" }}</strong><br>średnia długość książki</p>
                 </div>
             </div>
 
@@ -162,36 +162,15 @@
                 }
             }]
         },
-        "dataProvider": [{
-            "author": "Terry Pratchett",
-            "pages": 4150
-        }, {
-            "author": "J.K. Rowling",
-            "pages": 3407
-        }, {
-            "author": "J.R.R. Tolkien",
-            "pages": 2500
-        }, {
-            "author": "Victor Hugo",
-            "pages": 1890
-        }, {
-            "author": "Lew Tołstoj",
-            "pages": 1881
-        }, {
-            "author": "Neil Gaiman",
-            "pages": 1429
-        }, {
-            "author": "Władysław Reymont",
-            "pages": 1117
-        }, {
-            "author": "Miguel de Cervantes",
-            "pages": 940
-        }, {
-
-
-            "author": "Inni",
-            "pages": 8045
-        }],
+        "dataProvider": [
+            {% for author in stats %}
+            {
+            "author": "{{ author.book__author__name }}",
+            "pages": "{{ author.on_page__sum }}"
+            }
+                {% if not forloop.last %} , {% endif %}
+            {% endfor %}
+        ],
         "valueField": "pages",
         "titleField": "author",
         "export": {
