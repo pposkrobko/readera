@@ -18,6 +18,9 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete = models.CASCADE)
     max_pages = models.IntegerField()
 
+    def __str__(self):
+        return self.author + ": " + self.title
+
 
 class BookStats(models.Model):
 
@@ -39,7 +42,7 @@ class BookStats(models.Model):
     last_time_used = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.user + ": " + self.book
 
 
 class BookStatsHistory(models.Model):
