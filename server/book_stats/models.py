@@ -50,5 +50,3 @@ class BookStatsHistory(models.Model):
     time = models.DateField(auto_now=True)
     pages_read = models.IntegerField()
 
-
-# Create your models here.
