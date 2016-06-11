@@ -1,4 +1,7 @@
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
+
+from book_stats.forms import AddNewBookForm
 from book_stats.models import BookStats, BookStatsHistory, Book
 from django.db.models import Sum, Count, Avg, Max, Min
 from django.shortcuts import render
@@ -8,7 +11,7 @@ class ProfileView(ListView):
     template_name = "book_stats/user.html"
 
     def get_queryset(self):
-        return BookStats.objects.filter(user=self.request.user).filter(state=BookStats.IN_PROGRESS)
+        return BookStats.objects.filter(user=self.request.user).filter(state=BookStats.IN_PROGRESS).order_by("-last_time_used")
 
 
 class ChartsView(TemplateView):
@@ -54,3 +57,20 @@ class HistoryView(TemplateView):
         return context
 
 # Create your views here.
+def get_new_book_form(request):
+    if request.method == 'POST':
+        form = AddNewBookForm(request.POST)
+        if form.is_valid():
+            new_book = form.save()
+            # commit=False tells Django that "Don't send this to database yet.
+            # I have more things I want to do with it."
+
+            stats = BookStats()
+            stats.book = new_book
+            stats.user = request.user
+            stats.save()
+
+            return HttpResponseRedirect("/stats/user/")
+    else:
+        form = AddNewBookForm()
+    return render(request, 'book_stats/new-book-form.html', {"example_form": form})
