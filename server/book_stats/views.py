@@ -71,6 +71,9 @@ class BookStatsHistoryAdd(generics.CreateAPIView):
         serializer.validated_data['book_stats'] = statistics
         statistics.on_page = statistics.on_page + int(request.data['pages_read'])
         statistics.reading_time = statistics.reading_time + datetime.timedelta(minutes=int(request.data['minutes']))
+        if statistics.on_page > statistics.book.max_pages:
+            statistics.on_page = statistics.book.max_pages
+            statistics.state = BookStats.DONE
         statistics.save()
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
