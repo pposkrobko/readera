@@ -1,0 +1,101 @@
+[
+  {
+    "model": "book_stats.Book",
+    "pk": 1,
+    "fields": {
+      "title": "Kolor Magii",
+      "author": 1,
+      "max_pages": 208
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 2,
+    "fields": {
+      "title": "Trzy Wiedźmy",
+      "author": 1,
+      "max_pages": 270
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 3,
+    "fields": {
+      "title": "Hobbit",
+      "author": 3,
+      "max_pages": 232
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 4,
+    "fields": {
+      "title": "Władca Pierścieni: Drużyna Pierścienia",
+      "author": 3,
+      "max_pages": 530
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 5,
+    "fields": {
+      "title": "Harry Potter i Więzień Azkabanu",
+      "author": 2,
+      "max_pages": 365
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 6,
+    "fields": {
+      "title": "Harry Potter i Zakon Feniksa",
+      "author": 2,
+      "max_pages": 723
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 7,
+    "fields": {
+      "title": "Nędznicy",
+      "author": 4,
+      "max_pages": 263
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 8,
+    "fields": {
+      "title": "Wojna i Pokój",
+      "author": 5,
+      "max_pages": 623
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 9,
+    "fields": {
+      "title": "Gwiezdny Pył",
+      "author": 6,
+      "max_pages": 332
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 10,
+    "fields": {
+      "title": "Chłopi",
+      "author": 7,
+      "max_pages": 534
+    }
+  },
+  {
+    "model": "book_stats.Book",
+    "pk": 11,
+    "fields": {
+      "title": "Don Kichot z La Manchy",
+      "author": 8,
+      "max_pages": 187
+    }
+  }
+]

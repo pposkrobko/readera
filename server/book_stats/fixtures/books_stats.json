@@ -1,0 +1,38 @@
+[
+  {
+    "model": "book_stats.BookStats",
+    "pk": 1,
+    "fields": {
+      "state": "W trakcie czytania.",
+      "book": 1,
+      "user": 1,
+      "on_page": 97,
+      "reading_time": "0:46:23",
+      "last_time_used": "2016-05-22" 
+    }
+  },
+  {
+    "model": "book_stats.BookStats",
+    "pk": 2,
+    "fields": {
+      "state": "Książka już przeczytana.",
+      "book": 5,
+      "user": 1,
+      "on_page": 365,
+      "reading_time": "4:26:13",
+      "last_time_used": "2016-05-27" 
+    }
+  },
+  {
+    "model": "book_stats.BookStats",
+    "pk": 3,
+    "fields": {
+      "state": "Zrezygnowano z czytania",
+      "book": 10,
+      "user": 1,
+      "on_page": 213,
+      "reading_time": "2:12:05",
+      "last_time_used": "2016-06-02" 
+    }
+  }
+]
