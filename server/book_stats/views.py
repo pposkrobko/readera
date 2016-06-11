@@ -54,3 +54,20 @@ class HistoryView(TemplateView):
         return context
 
 # Create your views here.
+def get_new_book_form(request):
+    if request.method == 'POST':
+        form = AddNewBookForm(request.POST)
+        if form.is_valid():
+            new_book = form.save()
+            # commit=False tells Django that "Don't send this to database yet.
+            # I have more things I want to do with it."
+
+            stats = BookStats()
+            stats.book = new_book
+            stats.user = request.user
+            stats.save()
+
+            return HttpResponseRedirect("/stats/user/")
+    else:
+        form = AddNewBookForm()
+    return render(request, 'book_stats/new-book-form.html', {"example_form": form})

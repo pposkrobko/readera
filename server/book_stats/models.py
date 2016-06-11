@@ -7,7 +7,7 @@ class Profile(models.Model):
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
@@ -34,7 +34,7 @@ class BookStats(models.Model):
         (FORSAKEN, FORSAKEN)
     )
 
-    state = models.CharField(choices = book_states, max_length=30)
+    state = models.CharField(choices = book_states, max_length=30, default=IN_PROGRESS)
     book = models.ForeignKey(Book, on_delete = models.CASCADE)
     user = models.ForeignKey(User)
     on_page = models.IntegerField(default=0)

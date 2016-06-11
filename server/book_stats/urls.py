@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^user/', login_required(views.ProfileView.as_view()), name="profile"),
     url(r'^stat/', login_required(views.ChartsView.as_view()), name="stats"),
     url(r'^history/', login_required(views.HistoryView.as_view()), name="history"),
+    url(r'^get_new_book_form/$', views.get_new_book_form, name="form"),
 ]
