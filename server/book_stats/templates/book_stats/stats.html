@@ -1,121 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-		<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
-    <style>
+{% extends "base.html" %}
 
-        #chartdiv {
-            width: 100%;
-            height: 500px;
-            font-size: 11px;
-        }
-
-        #piediv {
-            width: 100%;
-            height: 400px;
-            font-size: 11px;
-        }
-
-        .amcharts-pie-slice {
-            transform: scale(1);
-            transform-origin: 50% 50%;
-            transition-duration: 0.3s;
-            transition: all .3s ease-out;
-            -webkit-transition: all .3s ease-out;
-            -moz-transition: all .3s ease-out;
-            -o-transition: all .3s ease-out;
-            cursor: pointer;
-            box-shadow: 0 0 30px 0 #000;
-        }
-
-        .amcharts-pie-slice:hover {
-            transform: scale(1.1);
-            filter: url(#shadow);
-        }
-
-    </style>
-</head>
-
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            {% include "login-bar.html" %}
-
-            <div class="row">
-                <div class="col-md-3" style="padding-right: 0">
-                    <input class="form-control" type="text" placeholder="Wyszukaj tytuł, autora bądź użytkownika">
-                </div>
-                <div class="col-sm-1" style="padding-left: 0">
-                    <p>
-                        <button type="button" class="btn btn-link">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </p>
-                </div>
-            </div>
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Strona główna</a>
-                    </div>
-                    <ul class="nav navbar-nav">
-                        <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
-                        <li><a href="#">Historia czytania</a></li>
-                        <li><a href="#">Ulubione książki</a></li>
-                        <li><a href="{% url 'stats' %}">Statystyki</a></li>
-                        <li><a href="#">Znajomi</a></li>
-                    </ul>
-                </div>
-            </nav>
-
-
-            <div class="row">
-                <div class="col-md-4">
-                    <p class="text-center"><strong style="font-size: x-large">{{ book__count }}</strong><br>liczba książek</p>
-                </div>
-                <div class="col-md-4">
-                    <p class="text-center"><strong style="font-size: x-large">{{ on_page__sum }}</strong><br>łącznie stron</p>
-                </div>
-                <div class="col-md-4">
-                    <p class="text-center"><strong style="font-size: x-large">{{ book__max_pages__avg|floatformat:"1" }}</strong><br>średnia długość książki</p>
-                </div>
-            </div>
-
-
-
-            <div class="well" style="margin-top: 20px">
-                <h3>Oś czasu</h3>
-                <p>Najwięcej stron jednego dnia: <strong> {{ pages_read__sum__max }}</strong></p>
-                <hr style="border: 1px solid lightgrey">
-                <h4 class="text-center">Liczba stron przeczytanych każdego dnia</h4>
-                <div id="chartdiv"></div>
-            </div>
-
-            <div class="well">
-                <h3>Autorzy</h3>
-                <p>Łącznie autorów: <strong> {{ book__author__count }}</strong> &middot;
-                    <a href="#" class="text-right" style="color: dimgrey">Zobacz wszystkich</a>
-                </p>
-                <hr style="border: 1px solid lightgrey">
-                <h4 class="text-center">Liczba przeczytanych stron każdego autora</h4>
-                <div id="piediv"></div>
-
-            </div>
-
-
-        </div>
-    </div>
-</div>
-</body>
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="https://www.amcharts.com/lib/3/pie.js"></script>
 
 <script>
     var chart1 = AmCharts.makeChart("piediv", {
@@ -279,6 +170,68 @@
         chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
     }
 </script>
+{% endblock %}
 
+{% block style %}
+#chartdiv {
+    width: 100%;
+    height: 500px;
+    font-size: 11px;
+}
 
-</html>
+#piediv {
+    width: 100%;
+    height: 400px;
+    font-size: 11px;
+}
+
+.amcharts-pie-slice {
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition-duration: 0.3s;
+    transition: all .3s ease-out;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    cursor: pointer;
+    box-shadow: 0 0 30px 0 #000;
+}
+
+.amcharts-pie-slice:hover {
+    transform: scale(1.1);
+    filter: url(#shadow);
+}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <p class="text-center"><strong style="font-size: x-large">{{ book__count }}</strong><br>liczba książek</p>
+    </div>
+    <div class="col-md-4">
+        <p class="text-center"><strong style="font-size: x-large">{{ on_page__sum }}</strong><br>łącznie stron</p>
+    </div>
+    <div class="col-md-4">
+        <p class="text-center"><strong style="font-size: x-large">{{ book__max_pages__avg|floatformat:"1" }}</strong><br>średnia długość książki</p>
+    </div>
+</div>
+
+<div class="well" style="margin-top: 20px">
+    <h3>Oś czasu</h3>
+    <p>Najwięcej stron jednego dnia: <strong> {{ pages_read__sum__max }}</strong></p>
+    <hr style="border: 1px solid lightgrey">
+    <h4 class="text-center">Liczba stron przeczytanych każdego dnia</h4>
+    <div id="chartdiv"></div>
+</div>
+
+<div class="well">
+    <h3>Autorzy</h3>
+    <p>Łącznie autorów: <strong> {{ book__author__count }}</strong> &middot;
+        <a href="#" class="text-right" style="color: dimgrey">Zobacz wszystkich</a>
+    </p>
+    <hr style="border: 1px solid lightgrey">
+    <h4 class="text-center">Liczba przeczytanych stron każdego autora</h4>
+    <div id="piediv"></div>
+
+</div>
+{% endblock %}

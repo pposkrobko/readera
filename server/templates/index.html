@@ -1,196 +1,117 @@
-<!DOCTYPE html>
-<html>
-<head>
-		<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <style>
-        .glyphicon-ok:hover, .glyphicon-trash:hover {
-            font-weight: bolder;
-        }
-        .progress {
-            border-bottom: 1px ridge slategrey;
-            border-right: 1px ridge slategrey;
-        }
-        .backdrop {
-            position: fixed;
-            opacity: 0.5;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            background-color: black;
-            z-index: 665;
-        }
-        #register-login-form {
-            position: fixed;
-            display: none;
-            z-index: 665;
-            width: 100%;
-        }
-        .register-login-form-main {
-            position: relative;
-            z-index: 666;
-        }
-        {% include "register-form.css" %}
-    </style>
-</head>
+{% extends "base.html" %}
 
-<body>
-<div id="register-login-form">
-    <div class="backdrop"></div>
-    <div class="register-login-form-main">
-        {% include "register-form.html" %}
+{% block content %}
+<div>
+<div class="row">
+    <div class="col-md-6">
+
+    <h3>Teraz czytane</h3>
     </div>
-</div>
+    <div class="col-md-6" style="text-align: right">
+        <button type="button" class="btn btn-success btn-lg">
+    <span class="glyphicon glyphicon-book"></span> &nbsp;Rozpocznij nową książkę
+</button>
+    </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Książka</th>
+            <th>Ostatnio otwarta</th>
+            <th style="text-align: center">Postęp</th>
+        </tr>
+        </thead>
+        <tbody>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            {% include "login-bar.html" %}
+        <tr>
+            <td>
+                <a href="#" style="color:darkslategrey">J.R.R. Tolkien</a> &mdash;
+                <a href="#" style="color:darkslategrey">The Hobbit</a>
+            </td>
+            <td>
+                <a href="#" style="color: black">25.04.2016</a></td>
+            <td style="text-align: center">
 
-            <div class="row">
-                <div class="col-md-3" style="padding-right: 0">
-                    <input class="form-control" type="text" placeholder="Wyszukaj tytuł, autora bądź użytkownika">
-                </div>
-                <div class="col-sm-1" style="padding-left: 0">
-                    <p>
-                        <button type="button" class="btn btn-link">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </p>
-                </div>
-            </div>
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Strona główna</a>
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-3">
+                        <input class="form-control" type="number" value="240">
                     </div>
-                    <ul class="nav navbar-nav">
-                        <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
-                        <li><a href="#">Historia czytania</a></li>
-                        <li><a href="#">Ulubione książki</a></li>
-                        <li><a href="{% url 'stats' %}">Statystyki</a></li>
-                        <li><a href="#">Znajomi</a></li>
-                    </ul>
-                </div>
-            </nav> <div>
-            <div class="row">
-                <div class="col-md-6">
-
-                <h3>Teraz czytane</h3>
-                </div>
-                <div class="col-md-6" style="text-align: right">
-                    <button type="button" class="btn btn-success btn-lg">
-                <span class="glyphicon glyphicon-book"></span> &nbsp;Rozpocznij nową książkę
-            </button>
-                </div>
-                </div>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>Książka</th>
-                        <th>Ostatnio otwarta</th>
-                        <th style="text-align: center">Postęp</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr>
-                        <td>
-                            <a href="#" style="color:darkslategrey">J.R.R. Tolkien</a> &mdash;
-                            <a href="#" style="color:darkslategrey">The Hobbit</a>
-                        </td>
-                        <td>
-                            <a href="#" style="color: black">25.04.2016</a></td>
-                        <td style="text-align: center">
-
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-3">
-                                    <input class="form-control" type="number" value="240">
-                                </div>
-                                <div class="col-md-3" style="text-align: left; padding-left: 0">
-                                    <div class="row">
-                                        <div class="col-md-1">
-                                            <p class="form-control-static">/320</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-link">
-                                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
-                                            </button>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="col-md-3" style="text-align: right">
-                                            <button type="button" class="btn btn-link">
-                                                <span class="glyphicon glyphicon-trash" style="color: darkred"></span>
-                                            </button>
-                                        </div>
+                    <div class="col-md-3" style="text-align: left; padding-left: 0">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <p class="form-control-static">/320</p>
                             </div>
-                            <br>
-                            <!--<p style="font-size: 18px"><strong>240</strong><small>/320</small></p>-->
-
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="240" aria-valuemin="0"
-                                     aria-valuemax="320" style="width:75%">
-                                    75%
-                                </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-link">
+                                    <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                                </button>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#" style="color:darkslategrey">Jane Austen</a> &mdash;
-                            <a href="#" style="color:darkslategrey">Pride and Prejudice</a>
-                        </td>
-                        <td>
-                            <a href="#" style="color: black">15.04.2016</a></td>
-                        <td style="text-align: center">
-
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-3">
-                                    <input class="form-control" type="number" value="120">
-                                </div>
-                                <div class="col-md-3" style="text-align: left; padding-left: 0">
-                                    <div class="row">
-                                        <div class="col-md-1">
-                                            <p class="form-control-static">/300</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-link">
-                                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
-                                            </button>
-                                        </div>
 
 
-                                    </div>
-                                </div>
-                                <div class="col-md-3" style="text-align: right">
-                                            <button type="button" class="btn btn-link">
-                                                <span class="glyphicon glyphicon-trash" style="color: darkred"></span>
-                                            </button>
-                                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="text-align: right">
+                                <button type="button" class="btn btn-link">
+                                    <span class="glyphicon glyphicon-trash" style="color: darkred"></span>
+                                </button>
                             </div>
-                            <br>
-                            <!--<p style="font-size: 18px"><strong>240</strong><small>/320</small></p>-->
+                </div>
+                <br>
+                <!--<p style="font-size: 18px"><strong>240</strong><small>/320</small></p>-->
 
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="120" aria-valuemin="0"
-                                     aria-valuemax="300" style="width:40%">
-                                    40%
-                                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="240" aria-valuemin="0"
+                         aria-valuemax="320" style="width:75%">
+                        75%
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#" style="color:darkslategrey">Jane Austen</a> &mdash;
+                <a href="#" style="color:darkslategrey">Pride and Prejudice</a>
+            </td>
+            <td>
+                <a href="#" style="color: black">15.04.2016</a></td>
+            <td style="text-align: center">
+
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-3">
+                        <input class="form-control" type="number" value="120">
+                    </div>
+                    <div class="col-md-3" style="text-align: left; padding-left: 0">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <p class="form-control-static">/300</p>
                             </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-link">
+                                    <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="text-align: right">
+                                <button type="button" class="btn btn-link">
+                                    <span class="glyphicon glyphicon-trash" style="color: darkred"></span>
+                                </button>
+                            </div>
+                </div>
+                <br>
+                <!--<p style="font-size: 18px"><strong>240</strong><small>/320</small></p>-->
+
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="120" aria-valuemin="0"
+                         aria-valuemax="300" style="width:40%">
+                        40%
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-</body>
-</html>
+{% endblock %}
