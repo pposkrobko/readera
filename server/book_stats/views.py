@@ -1,10 +1,12 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
-
+from rest_framework.response import Response
 from book_stats.forms import AddNewBookForm
 from book_stats.models import BookStats, BookStatsHistory, Book
 from django.db.models import Sum, Count, Avg, Max, Min
-from django.shortcuts import render
+from rest_framework import generics, permissions, status
+from book_stats.serializers import BookStatsHistorySerializer
+import datetime
 
 
 class ProfileView(ListView):
@@ -56,7 +58,24 @@ class HistoryView(TemplateView):
         context['books'] = books_data
         return context
 
-# Create your views here.
+class BookStatsHistoryAdd(generics.CreateAPIView):
+    queryset = BookStatsHistory.objects.all()
+    serializer_class = BookStatsHistorySerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def create(self, request):
+        request.data.update({})
+        serializer = self.get_serializer(data=request.data)
+        statistics = BookStats.objects.get(book__title=request.data['book'], user=request.user)
+        serializer.is_valid(raise_exception=True)
+        serializer.validated_data['book_stats'] = statistics
+        statistics.on_page = statistics.on_page + int(request.data['pages_read'])
+        statistics.reading_time = statistics.reading_time + datetime.timedelta(minutes=int(request.data['minutes']))
+        statistics.save()
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 def get_new_book_form(request):
     if request.method == 'POST':
         form = AddNewBookForm(request.POST)

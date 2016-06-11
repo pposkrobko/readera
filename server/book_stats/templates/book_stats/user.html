@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load mathfilters %}
+{% load staticfiles %}
 
+{% block scripts %}
+    <script type="text/javascript" src="../../../static/book_stats/bookhistorybutton.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+{% endblock %}
 {% block style %}
     .glyphicon-ok:hover, .glyphicon-trash:hover {
         font-weight: bolder;
@@ -24,6 +31,19 @@
     <div class="row">
         <div class="col-md-6">
 
+        <div id="input_modal" title="Dodaj progres">
+            <form>
+            <fieldset>
+                <div style="width:90%">Podaj ilość stron: <input type="number" id="pages"></div>
+                <div style="width:90%"> Wybierz książkę: <select id="book">
+                    {% for book in object_list %}
+                        <option> {{ book.book.title }} </option>
+                    {% endfor %}
+                </select></div>
+                <div style="width:90%"> Podaj czas czytania (w minutach): <input type="number" id="time"></div>
+            </fieldset>
+            </form>
+        </div>
         <h3>Teraz czytane</h3>
         </div>
         <div class="col-md-6" style="text-align: right">
@@ -31,6 +51,11 @@
                                href="{% url 'form' %}" data-target="#form-modal">
                         <span class="glyphicon glyphicon-book"></span>&nbsp;Rozpocznij nową książkę
                     </a>
+        </div>
+        <div class="col-md-6" style="margin-top:15px; text-align: right">
+            <button type="button" class="btn btn-success btn-lg" id="add_hist">
+                <span class="glyphicon glyphicon-book"></span> &nbsp;Oznacz swój postęp
+            </button>
         </div>
         </div>
         <table class="table table-hover">
