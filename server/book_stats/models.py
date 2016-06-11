@@ -19,7 +19,7 @@ class Book(models.Model):
     max_pages = models.IntegerField()
 
     def __str__(self):
-        return self.author + ": " + self.title
+        return "".join((str(self.author), ": ", str(self.title)))
 
 
 class BookStats(models.Model):
@@ -42,7 +42,7 @@ class BookStats(models.Model):
     last_time_used = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.user + ": " + self.book
+        return "".join((str(self.user), ": ", str(self.book)))
 
 
 class BookStatsHistory(models.Model):
