@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
 from rest_framework.response import Response
 from book_stats.forms import AddNewBookForm
-from book_stats.models import BookStats, BookStatsHistory, Book
+from book_stats.models import BookStats, BookStatsHistory, Book, Author
 from django.db.models import Sum, Count, Avg, Max, Min
 from rest_framework import generics, permissions, status
 from book_stats.serializers import BookStatsHistorySerializer
@@ -40,7 +40,7 @@ class HistoryView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HistoryView, self).get_context_data(**kwargs)
-        books = BookStats.objects.filter(user=self.request.user, state__in=(BookStats.DONE, BookStats.FORSAKEN))
+        books = BookStats.objects.filter(user=self.request.user).exclude(state=BookStats.IN_PROGRESS)
         books_data = []
         for b in books:
             temp = {}
@@ -90,6 +90,39 @@ class FavouriteView(ListView):
         return BookStats.objects.filter(user=self.request.user, loves=True).order_by("-last_time_used")
 
 
+class BooksStatsView(TemplateView):
+    template_name = "book_stats/books-stats.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(BooksStatsView, self).get_context_data(**kwargs)
+        count = BookStats.objects.values('book').annotate(readers=Count('book')).order_by('readers')[:100]
+        pop = []
+        for c in count:
+            pop.append([c['readers'], Book.objects.get(pk=c['book'])])
+        context['popular'] = pop
+
+        context['fast'] = get_fastest_books(Book.objects.all())[:100]
+
+        return context
+
+
+class AuthorsStatsView(TemplateView):
+    template_name = "book_stats/authors-stats.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(AuthorsStatsView, self).get_context_data(**kwargs)
+        count = BookStats.objects.values('book__author').annotate(readers=Count('book__author')).order_by('readers')[:100]
+        print(count)
+        pop = []
+        for c in count:
+            pop.append([c['readers'], Author.objects.get(pk=c['book__author'])])
+        context['popular'] = pop
+
+        context['fast'] = get_fastest_authors(Author.objects.all())[:100]
+
+
+        return context
+
 def get_new_book_form(request):
     if request.method == 'POST':
         form = AddNewBookForm(request.POST)
@@ -131,3 +164,31 @@ def love(request):
         return HttpResponseRedirect(request.POST['return'])
 
     print("A TERRIBLE ERROR")
+
+
+def get_fastest_books(books):
+    result = []
+    for b in books:
+        done = BookStats.objects.filter(book=b, state=BookStats.DONE)
+        if len(done) == 0:
+            continue
+        speed = 0
+        for d in done:
+            entr = BookStatsHistory.objects.filter(book_stats=d)
+            days = (entr.aggregate(Max('time'))['time__max'] - entr.aggregate(Min('time'))['time__min']).days
+            speed += b.max_pages / days
+        result.append([round(speed / len(done), 2), len(done), b])
+
+    result.sort()
+    return result
+
+def get_fastest_authors(authors):
+    result = []
+    for a in authors:
+        books = get_fastest_books(Book.objects.filter(author=a))
+        if len(books) == 0:
+            continue
+        result.append([round(sum(x for x, *_ in books) / len(books), 2), len(books), a])
+
+    result.sort()
+    return result

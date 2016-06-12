@@ -1,8 +1,48 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block style %}
+    img {
+        -webkit-filter: grayscale(80%); /* Chrome, Safari, Opera */
+        filter: grayscale(100%);
+    }
+
+    img:hover {
+        -webkit-filter: grayscale(0%); /* Chrome, Safari, Opera */
+        filter: grayscale(0%);
+        transition: 0.4s
+    }
+
+    a {
+        color: black;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: black;
+    }
+{% endblock %}
 
 {% block content %}
-<div class="row">
-    <h3>Na topie</h3>
-    <h2>TODO</h2>
-</div>
+    <div class="container">
+        <div style="width:100%">
+            <h3 class="text-center">Rankingi</h3>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <a href="{% url 'books-stats' %}" class="text-center">
+                        <img src="{% static 'book_stats/img/books.gif' %}" height="200px"/>
+                        <h4>Książki</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <a href="{% url 'authors-stats' %}" class="text-center">
+                        <img src="{% static 'book_stats/img/pen.gif' %}" height="200px"/>
+                        <h4>Pisarze</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
