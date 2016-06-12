@@ -49,7 +49,7 @@ class HistoryView(TemplateView):
             temp['pages'] = b.book.max_pages
             temp['start'] = BookStatsHistory.objects.filter(book_stats=b).aggregate(Min('time'))['time__min']
             temp['end'] = BookStatsHistory.objects.filter(book_stats=b).aggregate(Max('time'))['time__max']
-            temp['days'] = (temp['end'] - temp['start']).days
+            temp['days'] = (temp['end'] - temp['start'] + datetime.timedelta(days=1)).days
             temp['onpage'] = b.on_page
             temp['done'] = b.state == BookStats.DONE
             temp['speed'] = round(temp['onpage'] / temp['days'], 2)
