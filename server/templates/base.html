@@ -66,26 +66,13 @@
         </div>
 
         <div class="col-md-6 padded">
-            <div class="row">
-                <div class="col-md-11" style="padding-right: 0">
-                    <input class="form-control" type="text" placeholder="Wyszukaj tytuł, autora bądź użytkownika">
-                </div>
-                <div class="col-sm-1" style="padding-left: 0">
-                    <p>
-                        <button type="button" class="btn btn-link">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </p>
-                </div>
-            </div>
+
 
             <div class="row" align="right">
                 {% if user.is_authenticated %}
                     <small>Zalogowano jako</small>
                     <a href="{% url 'profile' %}" class="btn btn-link">
                         <small>{{ user.username }}</small>
-                    </a>&middot<a href="#" class="btn btn-link">
-                        <small>Ustawienia</small>
                     </a>&middot<a href="{% url 'logout-redirect' %}" class="btn btn-link">
                     <small>Wyloguj</small>
                     </a>
@@ -102,14 +89,13 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Strona główna</a>
+                <a class="navbar-brand" href="{% url 'index' %}">Strona główna</a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
                 <li><a href="{% url 'history' %}">Historia czytania</a></li>
                 <li><a href="{% url 'favourite' %}">Ulubione książki</a></li>
                 <li><a href="{% url 'stats' %}">Statystyki</a></li>
-                <li><a href="#">Znajomi</a></li>
             </ul>
         </div>
     </nav>

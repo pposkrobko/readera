@@ -1,4 +1,5 @@
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
 from rest_framework.response import Response
 from book_stats.forms import AddNewBookForm
