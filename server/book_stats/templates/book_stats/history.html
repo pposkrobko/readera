@@ -9,7 +9,6 @@
     <link type="text/javascript" href="{% static 'book_stats/sorter/jquery-latest.js' %}">
     <link type="text/javascript" href="{% static 'book_stats/sorter/jquery.tablesorter.js' %}">
 
-
     <script type="text/javascript">
         $(function () {
             $('table').tablesorter();
@@ -20,189 +19,105 @@
 
 {% block style %}
     #sort1 {
-        display: none;
+    display: none;
     }
 
     #forsaken {
-        background-color: lightgray;
-        font-size: 85%;
-        font-weight: lighter;
+    background-color: lightgray;
+    font-size: 85%;
+    font-weight: lighter;
     }
 
     .glyphicon-sort {
-        display: none;
+    display: none;
     }
 
     th:hover > .glyphicon-sort {
-        display: inline-block;
+    display: inline-block;
     }
 {% endblock %}
 
 {% block content %}
-<div>
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Historia czytania</h3>
+
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Historia czytania</h3>
+            </div>
         </div>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="attr">Książka <span class="glyphicon glyphicon-sort"></span></th>
+                <th class="attr">Data rozpoczęcia <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Data zakończenia <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Ile dni <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Liczba stron <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Liczba stron dziennie <span class="glyphicon glyphicon-sort"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for b in books %}
+                {% if b.done > 0 %}
+                    <tr>
+                        <td>
+                            <a href="#" style="color:darkslategrey">{{ b.author }}</a> &mdash;
+                            <a href="#" style="color:darkslategrey">{{ b.title }}</a>
+                        </td>
+                        <td><a href="#" style="color: black">{{ b.start }}</a></td>
+                        <td><a href="#" style="color: black">{{ b.end }}</a></td>
+                        <td>{{ b.days }}</td>
+                        <td>{{ b.pages }}</td>
+                        <td>{{ b.speed }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Książki porzucone</h4>
+            </div>
+        </div>
+
+        <table class="table table-condensed" id="forsaken">
+            <thead>
+            <tr>
+                <th>Książka <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Data rozpoczęcia <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Data porzucenia <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Ile dni <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Przeczytane <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Liczba stron dziennie <span class="glyphicon glyphicon-sort"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for b in books %}
+                {% if b.done == 0 %}
+                    <tr>
+                        <td>
+                            <a href="#" style="color:darkslategrey">{{ b.author }}</a> &mdash;
+                            <a href="#" style="color:darkslategrey">{{ b.title }}</a>
+                        </td>
+                        <td><a href="#" style="color: black">{{ b.start }}</a></td>
+                        <td><a href="#" style="color: black">{{ b.end }}</a></td>
+                        <td>{{ b.days }}</td>
+                        <td>{{ b.onpage }}/{{ b.pages }} stron</td>
+                        <td>{{ b.speed }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            </tbody>
+        </table>
     </div>
 
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th class="attr">Książka <span class="glyphicon glyphicon-sort"></span></th>
-            <th class="attr">Data rozpoczęcia <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Data zakończenia <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Ile dni <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Liczba stron <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Liczba stron dziennie <span class="glyphicon glyphicon-sort"></span></th>
-        </tr>
-        </thead>
-        <tbody>
-
-        {% for b in books %}
-            {% if b.done > 0 %}
-                <tr>
-                    <td>
-                        <a href="#" style="color:darkslategrey">{{ b.author }}</a> &mdash;
-                        <a href="#" style="color:darkslategrey">{{ b.title }}</a>
-                    </td>
-                    <td><a href="#" style="color: black">{{ b.start }}</a></td>
-                    <td><a href="#" style="color: black">{{ b.end }}</a></td>
-                    <td>{{ b.days }}</td>
-                    <td>{{ b.pages }}</td>
-                    <td>{{ b.speed }}</td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-
-        <tr>
-            <td>
-                <a href="#" style="color:darkslategrey">author</a> &mdash;
-                <a href="#" style="color:darkslategrey">book</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">21.05.2016</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">25.05.2016</a>
-            </td>
-            <td>
-                51
-            </td>
-            <td>
-                321
-            </td>
-            <td>
-                64.2
-            </td>
-
-        </tr>
-        <tr>
-            <td>
-                <a href="#" style="color:darkslategrey">Terry Pratchett</a> &mdash;
-                <a href="#" style="color:darkslategrey">The Colour of Magic</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">21.05.2016</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">25.05.2016</a>
-            </td>
-            <td>
-                5
-            </td>
-            <td>
-                321
-            </td>
-            <td>
-                64.2
-            </td>
-
-        </tr>
-        </tbody>
-    </table>
-
-
-    <div class="row">
-        <div class="col-md-6">
-            <h4>Książki porzucone</h4>
-        </div>
-    </div>
-
-    <table class="table table-condensed" id="forsaken">
-        <thead>
-        <tr>
-            <th>Książka <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Data rozpoczęcia <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Data porzucenia <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Ile dni <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Przeczytane <span class="glyphicon glyphicon-sort"></span></th>
-            <th>Liczba stron dziennie <span class="glyphicon glyphicon-sort"></span></th>
-        </tr>
-        </thead>
-        <tbody>
-
-        {% for b in books %}
-            {% if b.done == 0 %}
-                <tr>
-                    <td>
-                        <a href="#" style="color:darkslategrey">{{ b.author }}</a> &mdash;
-                        <a href="#" style="color:darkslategrey">{{ b.title }}</a>
-                    </td>
-                    <td><a href="#" style="color: black">{{ b.start }}</a></td>
-                    <td><a href="#" style="color: black">{{ b.end }}</a></td>
-                    <td>{{ b.days }}</td>
-                    <td>{{ b.onpage }}/{{ b.pages }} stron</td>
-                    <td>{{ b.speed }}</td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-
-        <tr>
-            <td>
-                <a href="#" style="color:darkslategrey">author</a> &mdash;
-                <a href="#" style="color:darkslategrey">book forsaken</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">21.05.2016</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">22.05.2016</a>
-            </td>
-            <td>
-                2
-            </td>
-            <td>
-                100/324 stron
-            </td>
-            <td>
-                50.00
-            </td>
-
-        </tr>
-        <tr>
-            <td>
-                <a href="#" style="color:darkslategrey">author2</a> &mdash;
-                <a href="#" style="color:darkslategrey">forsaken2</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">14.04.2016</a>
-            </td>
-            <td>
-                <a href="#" style="color: black">25.04.2016</a>
-            </td>
-            <td>
-                12
-            </td>
-            <td>
-                240/1009 stron
-            </td>
-            <td>
-                20.00
-            </td>
-
-        </tr>
-        </tbody>
-    </table>
-</div>
 {% endblock %}
