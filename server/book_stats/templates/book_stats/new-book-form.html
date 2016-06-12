@@ -1,18 +1,104 @@
+{% block scripts %}
+    <script>
+
+         $(function() {
+
+             $("#id_author").prop("required", true).prop("pattern", "[\\s\\S]*\\S[\\s\\S]*");
+             $("#id_title").prop("required", true).prop("pattern", "[\\s\\S]*\\S[\\s\\S]*");
+             $("#id_max_pages").prop("required", true);
+
+             var getData = function(data) {
+                 var arr = [];
+                $.each(data.items, function(index, value) {
+                    arr.push(value.volumeInfo.title);
+                });
+                 return arr;
+             };
+
+             $( "#automplete-1" ).autocomplete({
+                    source: function(request, response) {
+                        $.get("https://www.googleapis.com/books/v1/volumes?q=" + request.term + "&maxResults=10", function(data) {
+                            response($.map( data.items, function( item ) {
+                                var tmp = item.volumeInfo.imageLinks;
+                                var img = undefined;
+                                if (tmp) {
+                                    img = tmp.thumbnail;
+                                }
+
+                                var authors = item.volumeInfo.authors;
+                                var author = "";
+                                if (authors) {
+                                    author = authors[0];
+                                } else {
+                                    author = "unknown";
+                                }
+
+                                return {
+                                    label: author + ": " + item.volumeInfo.title,
+                                    author: author,
+                                    title: item.volumeInfo.title,
+                                    img: img,
+                                    pageCount: item.volumeInfo.pageCount
+                                }
+                            }));
+                        });
+                    },
+                    select: function(event, ui) {
+                        $("#id_author").val(ui.item.author);
+                        $("#id_title").val(ui.item.title);
+                        $("#id_max_pages").val(ui.item.pageCount);
+                        if (ui.item.img) {
+                            $("#book-img").show().attr("src", ui.item.img);
+                        } else {
+                            $("#book-img").hide();
+                        }
+                    },
+                    change: function(event,ui){
+                        if (!ui.item) { $(this).val(''); }
+                    }
+             });
+             $( "#automplete-1" ).autocomplete( "option", "appendTo", "#form-modal-body" );
+
+
+
+         });
+</script>
+
+    <style>
+    #submit-id-submit {
+        margin-top:10px;
+    }
+
+    .control-group {
+        margin-top:5px;
+    }
+
+    .search {
+        margin-bottom:20px;
+        width:100%;
+        height:30px;
+        text-align:center;
+    }
+    </style>
+{% endblock %}
+
 
 {% block content %}
        <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
          <h4 class="modal-title">Dodaj nową książkę</h4>
        </div>
-          <div id="form-modal-body" class="modal-body">
-          {% load crispy_forms_tags %}
-            {% crispy example_form %}
-        </div>
-{% endblock %}
+      <div id="form-modal-body" class="modal-body" style="height:300px;">
+            <div class="ui-widget">
+                <input id="automplete-1" placeholder="search" class="search">
+            </div>
+            <div style="float:left;width:200px;">
+               <img width="135px" height="210px" id="book-img" src="" style="display:none;"/>
+            </div>
+            <div>
+                {% load crispy_forms_tags %}
+                {% crispy example_form %}
+            </div>
+      </div>
 
-{% block footer %}
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    {{ form.media }}
-    {{ form.meta }}
 {% endblock %}

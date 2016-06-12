@@ -10,16 +10,19 @@ from book_stats.models import Author, Book
 
 class AddNewBookForm(forms.Form):
     author = forms.CharField(
+        label="Autor książki",
         max_length=100,
         required=True
     )
 
     title = forms.CharField(
+        label="Tytuł książki",
         max_length=100,
         required=True
     )
 
     max_pages= forms.IntegerField(
+        label="Ilość stron",
         required=True
     )
 
@@ -33,7 +36,7 @@ class AddNewBookForm(forms.Form):
 
         self.helper = FormHelper()
         self.helper.form_id = 'id-exampleForm'
-        self.helper.form_class = 'form-horizontal'
+        self.helper.form_class = 'add_book_form'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.form_method = 'post'

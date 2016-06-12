@@ -14,8 +14,7 @@ class ProfileView(ListView):
     template_name = "book_stats/user.html"
 
     def get_queryset(self):
-        print("USER")
-        return BookStats.objects.filter(user=self.request.user).filter(state=BookStats.IN_PROGRESS).order_by("-last_time_used")
+        return BookStats.objects.filter(user=self.request.user).filter(state=BookStats.IN_PROGRESS).order_by("-last_time_used", "-pk")
 
 
 class ChartsView(TemplateView):
@@ -104,6 +103,8 @@ def get_new_book_form(request):
             stats.save()
 
             return HttpResponseRedirect("/stats/user/")
+        else:
+            form = AddNewBookForm()
     else:
         form = AddNewBookForm()
     return render(request, 'book_stats/new-book-form.html', {"example_form": form})
