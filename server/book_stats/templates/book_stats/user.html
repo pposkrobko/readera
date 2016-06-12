@@ -37,24 +37,47 @@
         </div>
     </div>
 
-    <div>
-        <div class="row">
-            <div class="col-md-6">
-
-                <div id="input_modal" title="Dodaj progres" style="display:none;">
-                    <form>
+    <div class="modal fade" id="input_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Dodaj postęp</h4>
+               </div>
+                <div id="form-modal-body" class="modal-body" style="height:150px;">
+                <form>
                         <fieldset>
-                            <div style="width:90%">Podaj ilość stron: <input type="number" id="pages"></div>
-                            <div style="width:90%"> Wybierz książkę: <select id="book">
-                                {% for book in object_list %}
-                                    <option> {{ book.book.title }} </option>
-                                {% endfor %}
-                            </select></div>
-                            <div style="width:90%"> Podaj czas czytania (w minutach): <input type="number" id="time">
+                            <div>
+                                <div class="col-sm-6"><b> Podaj ilość stron: </b></div>
+                                <input class="col-sm-6" type="number" id="pages">
+                            </div>
+                            <div>
+                                <div class="col-sm-6"><b> Wybierz książkę:</b></div>
+                                <select class="col-sm-6"id="book">
+                                    {% for book in object_list %}
+                                        <option> {{ book.book.title }} </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <div class="col-sm-6"><b> Podaj czas czytania (w minutach): </b></div>
+                                <input class="col-sm-6"type="number" id="time">
                             </div>
                         </fieldset>
                     </form>
                 </div>
+                <div class="modal-footer">
+                    <button id="add_hist" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Dodaj</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="col-md-6">
                 <h3>Teraz czytane</h3>
             </div>
             <div class="col-md-6" style="text-align: right">
@@ -64,7 +87,7 @@
                 </a>
             </div>
             <div class="col-md-6" style="margin-top:15px; text-align: right">
-                <button type="button" class="btn btn-success btn-lg" id="add_hist">
+                <button data-toggle="modal" data-target="#input_modal" type="button" class="btn btn-success btn-lg">
                     <span class="glyphicon glyphicon-book"></span> &nbsp;Oznacz swój postęp
                 </button>
             </div>

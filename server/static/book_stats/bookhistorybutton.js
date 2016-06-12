@@ -54,35 +54,51 @@ $(document).ready(function() {
         }
     });
 
-    $("#add_hist").click(function() {
-       input_modal.dialog("open");
-    });
+    $("#add_hist").click(function () {
+        $.ajax({
+            url: "bookstats/",
+            type: "POST",
+            data: {
+                'pages_read' : $("#pages").val(),
+                'minutes' : $("#time").val(),
+                'book' : $("#book").val()
+            },
 
-    var input_modal = $("#input_modal").dialog({
-        autoOpen: false,
-        width: 500,
-        height: 300,
-        modal: true,
-        buttons: {
-            "Dodaj" : function() {
-                $.ajax({
-                    url: "bookstats/",
-                    type: "POST",
-                    data: {
-                        'pages_read' : $("#pages").val(),
-                        'minutes' : $("#time").val(),
-                        'book' : $("#book").val()
-                    },
+            success: function(json) {
+                location.reload();
+            },
 
-                    success: function(json) {
-                        location.reload();
-                    },
-
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert("Nie udało się zapisać zmian!");
-                    }
-                })
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("Nie udało się zapisać zmian!");
             }
-        }
+        })
     });
+
+    // var input_modal = $("#input_modal").dialog({
+    //     autoOpen: false,
+    //     width: 500,
+    //     height: 300,
+    //     modal: true,
+    //     buttons: {
+    //         "Dodaj" : function() {
+    //             $.ajax({
+    //                 url: "bookstats/",
+    //                 type: "POST",
+    //                 data: {
+    //                     'pages_read' : $("#pages").val(),
+    //                     'minutes' : $("#time").val(),
+    //                     'book' : $("#book").val()
+    //                 },
+    //
+    //                 success: function(json) {
+    //                     location.reload();
+    //                 },
+    //
+    //                 error: function (xhr, ajaxOptions, thrownError) {
+    //                     alert("Nie udało się zapisać zmian!");
+    //                 }
+    //             })
+    //         }
+    //     }
+    // });
 });
