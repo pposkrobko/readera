@@ -3,64 +3,81 @@
 {% load staticfiles %}
 
 {% block scripts %}
-    <script type="text/javascript" src="../../../static/book_stats/bookhistorybutton.js"></script>
+    <script type="text/javascript" src="../../../static/book_stats/bookhistorybutton.js"
+            xmlns="http://www.w3.org/1999/html"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <link type="text/javascript" href="{% static 'book_stats/popconfirm/jquery.popconfirm.js' %}">
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#forsake").popConfirm({
+                title: "Potwierdzenie",
+                content: "Czy na pewno chcesz porzucić tę książkę?",
+                placement: "top"
+            });
+        })
+    </script>
+
 {% endblock %}
 {% block style %}
     .glyphicon-ok:hover, .glyphicon-trash:hover {
-        font-weight: bolder;
+    font-weight: bolder;
     }
     .progress {
-        border-bottom: 1px ridge slategrey;
-        border-right: 1px ridge slategrey;
+    border-bottom: 1px ridge slategrey;
+    border-right: 1px ridge slategrey;
     }
 {% endblock %}
 
 {% block content %}
 
-<div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-  <div class="modal-content">
- </div>
-</div>
-</div>
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
 
-<div>
-    <div class="row">
-        <div class="col-md-6">
+    <div>
+        <div class="row">
+            <div class="col-md-6">
 
-        <div id="input_modal" title="Dodaj progres">
-            <form>
-            <fieldset>
-                <div style="width:90%">Podaj ilość stron: <input type="number" id="pages"></div>
-                <div style="width:90%"> Wybierz książkę: <select id="book">
-                    {% for book in object_list %}
-                        <option> {{ book.book.title }} </option>
-                    {% endfor %}
-                </select></div>
-                <div style="width:90%"> Podaj czas czytania (w minutach): <input type="number" id="time"></div>
-            </fieldset>
-            </form>
-        </div>
-        <h3>Teraz czytane</h3>
-        </div>
-        <div class="col-md-6" style="text-align: right">
-                    <a data-toggle="modal" type="button" class="btn btn-success btn-lg"
-                               href="{% url 'form' %}" data-target="#form-modal">
-                        <span class="glyphicon glyphicon-book"></span>&nbsp;Rozpocznij nową książkę
-                    </a>
-        </div>
-        <div class="col-md-6" style="margin-top:15px; text-align: right">
-            <button type="button" class="btn btn-success btn-lg" id="add_hist">
-                <span class="glyphicon glyphicon-book"></span> &nbsp;Oznacz swój postęp
-            </button>
-        </div>
+                <div id="input_modal" title="Dodaj progres">
+                    <form>
+                        <fieldset>
+                            <div style="width:90%">Podaj ilość stron: <input type="number" id="pages"></div>
+                            <div style="width:90%"> Wybierz książkę: <select id="book">
+                                {% for book in object_list %}
+                                    <option> {{ book.book.title }} </option>
+                                {% endfor %}
+                            </select></div>
+                            <div style="width:90%"> Podaj czas czytania (w minutach): <input type="number" id="time">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <h3>Teraz czytane</h3>
+            </div>
+            <div class="col-md-6" style="text-align: right">
+                <a data-toggle="modal" type="button" class="btn btn-success btn-lg"
+                   href="{% url 'form' %}" data-target="#form-modal">
+                    <span class="glyphicon glyphicon-book"></span>&nbsp;Rozpocznij nową książkę
+                </a>
+            </div>
+            <div class="col-md-6" style="margin-top:15px; text-align: right">
+                <button type="button" class="btn btn-success btn-lg" id="add_hist">
+                    <span class="glyphicon glyphicon-book"></span> &nbsp;Oznacz swój postęp
+                </button>
+            </div>
         </div>
         <table class="table table-hover">
             <thead>
             <tr>
+                <th></th>
                 <th>Książka</th>
                 <th>Ostatnio otwarta</th>
                 <th style="text-align: center">Postęp</th>
@@ -68,53 +85,85 @@
             </thead>
             <tbody>
             {% for book_stats in object_list %}
-            <tr>
-                <td>
-                    <a href="#" style="color:darkslategrey"> {{ book_stats.book.author }}</a> &mdash;
-                    <a href="#" style="color:darkslategrey"> {{ book_stats.book.title }}</a>
-                </td>
-                <td>
-                    <a href="#" style="color: black">{{ book_stats.last_time_used }}</a></td>
-                <td style="text-align: center">
+                <tr>
+                    <td>
+                        <form action="{% url 'love' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ book_stats.book.title }}" name="title">
+                            <input type="hidden" value="{{ book_stats.book.author }}" name="author">
+                            <input type="hidden" value="/stats/user/" name="return">
 
-                    <div class="row">
-                        <div class="col-md-3 col-md-offset-3">
-                            <input class="form-control" type="number" value="{{ book_stats.on_page }}">
-                        </div>
-                        <div class="col-md-3" style="text-align: left; padding-left: 0">
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <p class="form-control-static">/{{ book_stats.book.max_pages }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-link">
-                                        <span class="glyphicon glyphicon-ok" style="color:green"></span>
-                                    </button>
-                                </div>
+                            <a href="#" onclick="$(this).closest('form').submit()" data-toggle="tooltip"
+                                    {% if book_stats.loves %}
+                                        title="Usuń z ulubionych" style="color:brown"
+                                    {% else %}
+                                        title="Dodaj do ulubionych" style="color:rosybrown"
+                                    {% endif %}>
+                                <span class="glyphicon glyphicon-heart"></span>
+                            </a>
+                        </form>
 
 
+                        <script>
+                            $(document).ready(function () {
+                                $('[data-toggle="tooltip"]').tooltip();
+                            });
+                        </script>
+                    </td>
+                    <td>
+                        <a href="#" style="color:darkslategrey"> {{ book_stats.book.author }}</a> &mdash;
+                        <a href="#" style="color:darkslategrey"> {{ book_stats.book.title }}</a>
+                    </td>
+                    <td>
+                        <a href="#" style="color: black">{{ book_stats.last_time_used }}</a></td>
+                    <td style="text-align: center">
+
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-3">
+                                <input class="form-control" type="number" value="{{ book_stats.on_page }}">
                             </div>
-                        </div>
-                        <div class="col-md-3" style="text-align: right">
-                                    <button type="button" class="btn btn-link">
+                            <div class="col-md-3" style="text-align: left; padding-left: 0">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <p class="form-control-static">/{{ book_stats.book.max_pages }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-link">
+                                            <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="text-align: right">
+
+                                <form action="{% url 'forsake' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ book_stats.book.title }}" name="title">
+                                    <input type="hidden" value="{{ book_stats.book.author }}" name="author">
+
+                                    <button type="submit" class="btn btn-link" id="forsake">
                                         <span class="glyphicon glyphicon-trash" style="color: darkred"></span>
                                     </button>
-                                </div>
-                    </div>
-                    <br>
-                    <!--<p style="font-size: 18px"><strong>240</strong><small>/320</small></p>-->
-
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ book_stats.on_page }}" aria-valuemin="0"
-                             aria-valuemax="{{ book_stats.book.max_pages }}" style="width:{{ book_stats.on_page|div:book_stats.book.max_pages|mul:100 }}%">
-                            {{ book_stats.on_page|div:book_stats.book.max_pages|mul:100|floatformat:"0" }}%
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
+                        <br>
+                        <!--<p style="font-size: 18px"><strong>240</strong><small>/320</small></p>-->
+
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ book_stats.on_page }}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="{{ book_stats.book.max_pages }}"
+                                 style="width:{{ book_stats.on_page|div:book_stats.book.max_pages|mul:100 }}%">
+                                {{ book_stats.on_page|div:book_stats.book.max_pages|mul:100|floatformat:"0" }}%
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    </div>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../static/book_stats/popconfirm/jquery.popconfirm.js"></script>
 {% endblock %}

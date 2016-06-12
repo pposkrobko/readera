@@ -40,6 +40,7 @@ class BookStats(models.Model):
     on_page = models.IntegerField(default=0)
     reading_time = models.DurationField(default = datetime.timedelta(seconds = 1))
     last_time_used = models.DateField(auto_now=True)
+    loves = models.BooleanField(default=False)
 
     def __str__(self):
         return "".join((str(self.user), ": ", str(self.book)))

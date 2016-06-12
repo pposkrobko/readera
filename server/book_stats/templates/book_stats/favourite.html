@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block scripts %}
+
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Ulubione</h3>
+            </div>
+        </div>
+
+        <table class="table" width="65%">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Książka</th>
+                <th>Ostatnio czytana</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book_stats in object_list %}
+                <tr>
+                    <td>
+                        <form action="{% url 'love' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ book_stats.book.title }}" name="title">
+                            <input type="hidden" value="{{ book_stats.book.author }}" name="author">
+                            <input type="hidden" value="/stats/favourite/" name="return">
+
+                            <a href="#" onclick="$(this).closest('form').submit()" data-toggle="tooltip"
+                                    {% if book_stats.loves %}
+                                        title="Usuń z ulubionych" style="color:brown"
+                                    {% else %}
+                                        title="Dodaj do ulubionych" style="color:rosybrown"
+                                    {% endif %}>
+                                <span class="glyphicon glyphicon-heart"></span>
+                            </a>
+                        </form>
+
+
+                        <script>
+                            $(document).ready(function () {
+                                $('[data-toggle="tooltip"]').tooltip();
+                            });
+                        </script>
+                    </td>
+                    <td>
+                        <a href="#" style="color:darkslategrey"> {{ book_stats.book.author }}</a> &mdash;
+                        <a href="#" style="color:darkslategrey"> {{ book_stats.book.title }}</a>
+                    </td>
+                    <td>
+                        <a href="#" style="color: black">{{ book_stats.last_time_used }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

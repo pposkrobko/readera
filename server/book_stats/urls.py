@@ -8,5 +8,10 @@ urlpatterns = [
     url(r'^user/bookstats/', views.BookStatsHistoryAdd.as_view()),
     url(r'^stat/', login_required(views.ChartsView.as_view()), name="stats"),
     url(r'^history/', login_required(views.HistoryView.as_view()), name="history"),
+    url(r'^favourite/', login_required(views.FavouriteView.as_view()), name="favourite"),
     url(r'^get_new_book_form/$', views.get_new_book_form, name="form"),
+    url(r'^forsake/$', views.forsake, name="forsake"),
+    url(r'^love/$', views.love, name="love"),
+
+
 ]

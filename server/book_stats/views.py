@@ -7,12 +7,14 @@ from django.db.models import Sum, Count, Avg, Max, Min
 from rest_framework import generics, permissions, status
 from book_stats.serializers import BookStatsHistorySerializer
 import datetime
+from django.shortcuts import render
 
 
 class ProfileView(ListView):
     template_name = "book_stats/user.html"
 
     def get_queryset(self):
+        print("USER")
         return BookStats.objects.filter(user=self.request.user).filter(state=BookStats.IN_PROGRESS).order_by("-last_time_used")
 
 
@@ -41,7 +43,6 @@ class HistoryView(TemplateView):
         books = BookStats.objects.filter(user=self.request.user, state__in=(BookStats.DONE, BookStats.FORSAKEN))
         books_data = []
         for b in books:
-            print("TITLE: "+b.book.title)
             temp = {}
             temp['title'] = b.book.title
             temp['author'] = b.book.author.name
@@ -57,6 +58,8 @@ class HistoryView(TemplateView):
 
         context['books'] = books_data
         return context
+
+
 
 class BookStatsHistoryAdd(generics.CreateAPIView):
     queryset = BookStatsHistory.objects.all()
@@ -79,6 +82,14 @@ class BookStatsHistoryAdd(generics.CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+
+class FavouriteView(ListView):
+    template_name = "book_stats/favourite.html"
+
+    def get_queryset(self):
+        return BookStats.objects.filter(user=self.request.user, loves=True).order_by("-last_time_used")
+
+
 def get_new_book_form(request):
     if request.method == 'POST':
         form = AddNewBookForm(request.POST)
@@ -96,3 +107,25 @@ def get_new_book_form(request):
     else:
         form = AddNewBookForm()
     return render(request, 'book_stats/new-book-form.html', {"example_form": form})
+
+
+def forsake(request):
+    if request.method == 'POST':
+        book = Book.objects.get(title=request.POST['title'], author__name=request.POST['author'])
+        book_stat = BookStats.objects.get(user=request.user, book=book)
+        book_stat.state = BookStats.FORSAKEN
+        book_stat.save()
+        return HttpResponseRedirect("/stats/user/")
+
+    print("A TERRIBLE ERROR")
+
+
+def love(request):
+    if request.method == 'POST':
+        book = Book.objects.get(title=request.POST['title'], author__name=request.POST['author'])
+        book_stat = BookStats.objects.get(user=request.user, book=book)
+        book_stat.loves = not book_stat.loves
+        book_stat.save()
+        return HttpResponseRedirect(request.POST['return'])
+
+    print("A TERRIBLE ERROR")
