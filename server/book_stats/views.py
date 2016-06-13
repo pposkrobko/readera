@@ -95,7 +95,7 @@ class BooksStatsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(BooksStatsView, self).get_context_data(**kwargs)
-        count = BookStats.objects.values('book').annotate(readers=Count('book')).order_by('readers')[:100]
+        count = BookStats.objects.values('book').annotate(readers=Count('book')).order_by('-readers')[:100]
         pop = []
         for c in count:
             pop.append([c['readers'], Book.objects.get(pk=c['book'])])
@@ -111,7 +111,7 @@ class AuthorsStatsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AuthorsStatsView, self).get_context_data(**kwargs)
-        count = BookStats.objects.values('book__author').annotate(readers=Count('book__author')).order_by('readers')[:100]
+        count = BookStats.objects.values('book__author').annotate(readers=Count('book__author')).order_by('-readers')[:100]
         print(count)
         pop = []
         for c in count:
@@ -200,7 +200,7 @@ def get_fastest_books(books):
             speed += b.max_pages / days
         result.append([round(speed / len(done), 2), len(done), b])
 
-    result.sort()
+    result.sort(reverse=True)
     return result
 
 def get_fastest_authors(authors):
@@ -211,5 +211,5 @@ def get_fastest_authors(authors):
             continue
         result.append([round(sum(x for x, *_ in books) / len(books), 2), len(books), a])
 
-    result.sort()
+    result.sort(reverse=True)
     return result
