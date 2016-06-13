@@ -5,10 +5,7 @@ from django.shortcuts import render
 
 
 def index(request):
-    if request.user.is_authenticated():
-        return HttpResponsePermanentRedirect("/stats/user")
-    else:
-        return render(request, 'index.html')
+    return render(request, 'index.html')
 
 # Create your views here.
 def loginRedirect(request):
