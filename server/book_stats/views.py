@@ -175,7 +175,8 @@ def get_fastest_books(books):
         speed = 0
         for d in done:
             entr = BookStatsHistory.objects.filter(book_stats=d)
-            days = (entr.aggregate(Max('time'))['time__max'] - entr.aggregate(Min('time'))['time__min']).days
+            days = (entr.aggregate(Max('time'))['time__max'] - entr.aggregate(Min('time'))['time__min'] +
+                    datetime.timedelta(days=1)).days
             speed += b.max_pages / days
         result.append([round(speed / len(done), 2), len(done), b])
 

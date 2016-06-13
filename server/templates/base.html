@@ -5,17 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!--
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/united/bootstrap.min.css">
+    <!--
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+      -->
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/united/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <link href="http://code.jquery.com/ui/1.10.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
     <script type="text/javascript" src="../../../static/book_stats/popconfirm/jquery.popconfirm.js"></script>
-      <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 
     {% block scripts %}{% endblock %}
     <style>
@@ -37,27 +39,29 @@
             z-index: 665;
             width: 100%;
         }
+
         .register-login-form-main {
             position: relative;
             z-index: 666;
         }
+
         body {
             background-image: url(http://s3.amazonaws.com/spoonflower/public/design_thumbnails/0068/3366/rrrrrrimage_shop_preview.png);
         }
+
         .maintab {
             /*background-color: #AFC9DE;*/
 
             background: linear-gradient(to top, beige, sandybrown);
 
-
-
         }
+
         .padded {
             padding: 20px;
         }
 
         .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-          background-color: sandybrown !important;
+            background-color: sandybrown !important;
         }
 
         .well {
@@ -68,6 +72,7 @@
             border: 1px solid sandybrown;
             opacity: 0.5;
         }
+
         {% include "register-form.css" %}
     </style>
 </head>
@@ -83,7 +88,9 @@
 <div class="container maintab">
     <div class="row">
         <div class="col-md-6">
-            <img src="{% static "logo.png" %}" style="height: 180px; width: 700px;">
+            <a href="{% url 'index' %}">
+                <img src="{% static "logo.png" %}" style="height: 180px; width: 700px;">
+            </a>
         </div>
 
         <div class="col-md-6 padded">
@@ -96,10 +103,11 @@
                         <small>{{ user.username }}</small>
                     </a>&middot<a href="{% url 'logout-redirect' %}" class="btn btn-link">
                     <small>Wyloguj</small>
-                    </a>
+                </a>
                 {% else %}
                     <small>Jesteś niezalogowany</small>
-                    <a class="btn btn-link" onclick="document.getElementById('register-login-form').style.display='block';">
+                    <a class="btn btn-link"
+                       onclick="document.getElementById('register-login-form').style.display='block';">
                         <small>Zaloguj się lub zarejestruj</small>
                     </a>
                 {% endif %}
@@ -112,12 +120,14 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="{% url 'index' %}">Strona główna</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
-                <li><a href="{% url 'history' %}">Historia czytania</a></li>
-                <li><a href="{% url 'favourite' %}">Ulubione książki</a></li>
-                <li><a href="{% url 'stats' %}">Statystyki</a></li>
-            </ul>
+            {% if user.is_authenticated %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
+                    <li><a href="{% url 'history' %}">Historia czytania</a></li>
+                    <li><a href="{% url 'favourite' %}">Ulubione książki</a></li>
+                    <li><a href="{% url 'stats' %}">Statystyki</a></li>
+                </ul>
+            {% endif %}
         </div>
     </nav>
 
