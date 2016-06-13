@@ -128,8 +128,6 @@ def get_new_book_form(request):
         form = AddNewBookForm(request.POST)
         if form.is_valid():
             new_book = form.save()
-            # commit=False tells Django that "Don't send this to database yet.
-            # I have more things I want to do with it."
 
             stats = BookStats()
             stats.book = new_book

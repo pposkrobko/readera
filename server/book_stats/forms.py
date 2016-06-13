@@ -58,8 +58,12 @@ class AddNewBookForm(forms.Form):
         else:
             b.author = new_author[0]
 
-        if commit:
-            b.save()
+        such_books = Book.objects.filter(author=b.author, title=b.title)
+        if such_books.exists():
+            b = such_books[0]
+        else:
+            if commit:
+                b.save()
         return b
 
 
