@@ -3,7 +3,7 @@
     "model": "book_stats.Book",
     "pk": 1,
     "fields": {
-      "title": "Kolor Magii",
+      "title": "Kolor magii",
       "author": 1,
       "max_pages": 208
     }
@@ -12,7 +12,7 @@
     "model": "book_stats.Book",
     "pk": 2,
     "fields": {
-      "title": "Trzy Wiedźmy",
+      "title": "Trzy wiedźmy",
       "author": 1,
       "max_pages": 270
     }
@@ -39,7 +39,7 @@
     "model": "book_stats.Book",
     "pk": 5,
     "fields": {
-      "title": "Harry Potter i Więzień Azkabanu",
+      "title": "Harry Potter i więzień Azkabanu",
       "author": 2,
       "max_pages": 365
     }
@@ -59,23 +59,23 @@
     "fields": {
       "title": "Nędznicy",
       "author": 4,
-      "max_pages": 263
+      "max_pages": 1863
     }
   },
   {
     "model": "book_stats.Book",
     "pk": 8,
     "fields": {
-      "title": "Wojna i Pokój",
+      "title": "Wojna i pokój",
       "author": 5,
-      "max_pages": 623
+      "max_pages": 1880
     }
   },
   {
     "model": "book_stats.Book",
     "pk": 9,
     "fields": {
-      "title": "Gwiezdny Pył",
+      "title": "Gwiezdny pył",
       "author": 6,
       "max_pages": 332
     }
@@ -86,7 +86,7 @@
     "fields": {
       "title": "Chłopi",
       "author": 7,
-      "max_pages": 534
+      "max_pages": 1934
     }
   },
   {
@@ -95,7 +95,7 @@
     "fields": {
       "title": "Don Kichot z La Manchy",
       "author": 8,
-      "max_pages": 187
+      "max_pages": 987
     }
   }
 ]
