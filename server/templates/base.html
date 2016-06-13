@@ -52,19 +52,13 @@
 </head>
 
 <body>
+
 <div class="modal fade" id="register-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         </div>
     </div>
 </div>
-<!--
-<div id="register-login-form">
-    <div class="backdrop"></div>
-    <div class="register-login-form-main">
-
-    </div>
-</div>-->
 
 <div class="container maintab">
     <div class="row">
@@ -75,23 +69,23 @@
         </div>
 
         <div class="col-md-6 padded">
+            <div class="row" align="center">
+                <h4><i><b>Czytaj książki, zdobywaj nagrody, wygrywaj życie!</b></i></h4>
+            </div>
 
-
-            <div class="row" align="right">
+            <div class="row" align="right" style="padding: 0px 20px;">
                 {% if user.is_authenticated %}
                     <small>Zalogowano jako</small>
-                    <a href="{% url 'profile' %}" class="btn btn-link">
+                    <a href="{% url 'profile' %}" class="btn-link">
                         <small>{{ user.username }}</small>
-                    </a>&middot<a href="{% url 'logout-redirect' %}" class="btn btn-link">
+                    </a>&middot<a href="{% url 'logout-redirect' %}" class="btn-link">
                     <small>Wyloguj</small>
                 </a>
                 {% else %}
-                    <small>Jesteś niezalogowany</small>
-                    <a data-toggle="modal" type="button" class="btn btn-link"
+                    <small>Jesteś niezalogowany. </small>
+                    <a data-toggle="modal" type="button" class="btn-link"
                        href="{% url 'register-form' %}" data-target="#register-form-modal" style="margin-bottom: 10px">
-                    <!--<a class="btn btn-link"
-                        onclick="document.getElementById('register-login-form').style.display='block';document.getElementById('register-login-form').style.opacity=0;document.getElementById('register-login-form').style.opacity=100;">
-                      -->  <small>Zaloguj się lub zarejestruj</small>
+                        <small><b>Zaloguj się lub zarejestruj!</b></small>
                     </a>
                 {% endif %}
             </div>
