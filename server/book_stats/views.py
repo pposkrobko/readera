@@ -152,8 +152,6 @@ def forsake(request):
         book_stat.save()
         return HttpResponseRedirect("/stats/user/")
 
-    print("A TERRIBLE ERROR")
-
 
 def love(request):
     if request.method == 'POST':
@@ -163,8 +161,23 @@ def love(request):
         book_stat.save()
         return HttpResponseRedirect(request.POST['return'])
 
-    print("A TERRIBLE ERROR")
 
+def progress(request):
+    if request.method == 'POST':
+        book = Book.objects.get(title=request.POST['title'], author__name=request.POST['author'])
+        book_stat = BookStats.objects.get(user=request.user, book=book)
+        pages_read = int(request.POST['page'])
+        if pages_read == book_stat.on_page:
+            return HttpResponseRedirect("/stats/user/")
+
+        BookStatsHistory.objects.create(book_stats=book_stat, pages_read=pages_read-book_stat.on_page)
+        book_stat.on_page += pages_read-book_stat.on_page
+        if book_stat.on_page >= book.max_pages:
+            book_stat.state = BookStats.DONE
+            book_stat.save()
+            return HttpResponseRedirect("/stats/history/")
+        book_stat.save()
+        return HttpResponseRedirect("/stats/user/")
 
 def get_fastest_books(books):
     result = []

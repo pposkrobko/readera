@@ -44,17 +44,17 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Dodaj postęp</h4>
-               </div>
+                </div>
                 <div id="form-modal-body" class="modal-body" style="height:150px;">
-                <form>
+                    <form>
                         <fieldset>
                             <div>
-                                <div class="col-sm-6"><b> Podaj ilość stron: </b></div>
+                                <div class="col-sm-6"><b> Podaj liczbę stron: </b></div>
                                 <input class="col-sm-6" type="number" id="pages">
                             </div>
                             <div>
                                 <div class="col-sm-6"><b> Wybierz książkę:</b></div>
-                                <select class="col-sm-6"id="book">
+                                <select class="col-sm-6" id="book">
                                     {% for book in object_list %}
                                         <option> {{ book.book.title }} </option>
                                     {% endfor %}
@@ -62,13 +62,15 @@
                             </div>
                             <div>
                                 <div class="col-sm-6"><b> Podaj czas czytania (w minutach): </b></div>
-                                <input class="col-sm-6"type="number" id="time">
+                                <input class="col-sm-6" type="number" id="time">
                             </div>
                         </fieldset>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button id="add_hist" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Dodaj</button>
+                    <button id="add_hist" type="submit" class="btn btn-success"><span
+                            class="glyphicon glyphicon-floppy-disk"></span> Dodaj
+                    </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -81,15 +83,16 @@
                 <h3>Teraz czytane</h3>
             </div>
             <div class="col-md-6" style="text-align: right">
-                <a data-toggle="modal" type="button" class="btn btn-success btn-lg"
-                   href="{% url 'form' %}" data-target="#form-modal">
-                    <span class="glyphicon glyphicon-book"></span>&nbsp;Rozpocznij nową książkę
-                </a>
-            </div>
-            <div class="col-md-6" style="margin-top:15px; text-align: right">
-                <button data-toggle="modal" data-target="#input_modal" type="button" class="btn btn-success btn-lg">
-                    <span class="glyphicon glyphicon-book"></span> &nbsp;Oznacz swój postęp
-                </button>
+                <div class="btn-group-vertical">
+                    <a data-toggle="modal" type="button" class="btn btn-info btn-lg"
+                       href="{% url 'form' %}" data-target="#form-modal" style="margin-bottom: 10px">
+                        <span class="glyphicon glyphicon-book"></span>&nbsp;Rozpocznij nową książkę
+                    </a>
+
+                    <button data-toggle="modal" data-target="#input_modal" type="button" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-bookmark"></span> &nbsp;Oznacz swój postęp
+                    </button>
+                </div>
             </div>
         </div>
         <table class="table table-hover">
@@ -113,9 +116,9 @@
 
                             <a href="#" onclick="$(this).closest('form').submit()" data-toggle="tooltip"
                                     {% if book_stats.loves %}
-                                        title="Usuń z ulubionych" style="color:brown"
+                               title="Usuń z ulubionych" style="color:brown"
                                     {% else %}
-                                        title="Dodaj do ulubionych" style="color:rosybrown"
+                               title="Dodaj do ulubionych" style="color:rosybrown"
                                     {% endif %}>
                                 <span class="glyphicon glyphicon-heart"></span>
                             </a>
@@ -135,23 +138,31 @@
                     <td>
                         <a href="#" style="color: black">{{ book_stats.last_time_used }}</a></td>
                     <td style="text-align: center">
-
+                        {% csrf_token %}
                         <div class="row">
-                            <div class="col-md-3 col-md-offset-3">
-                                <input class="form-control" type="number" value="{{ book_stats.on_page }}">
-                            </div>
-                            <div class="col-md-3" style="text-align: left; padding-left: 0">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <p class="form-control-static">/{{ book_stats.book.max_pages }}</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-link">
-                                            <span class="glyphicon glyphicon-ok" style="color:green"></span>
-                                        </button>
+                            <form action="{% url 'progress' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ book_stats.book.title }}" name="title">
+                                <input type="hidden" value="{{ book_stats.book.author }}" name="author">
+
+                                <div class="col-md-3 col-md-offset-3">
+                                    <input class="form-control" type="number" value="{{ book_stats.on_page }}"
+                                           name="page">
+                                </div>
+
+                                <div class="col-md-3" style="text-align: left; padding-left: 0">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <p class="form-control-static">/{{ book_stats.book.max_pages }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-link">
+                                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                             <div class="col-md-3" style="text-align: right">
 
                                 <form action="{% url 'forsake' %}" method="post">
