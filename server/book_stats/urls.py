@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^forsake/$', views.forsake, name="forsake"),
     url(r'^love/$', views.love, name="love"),
     url(r'^progress/$', views.progress, name="progress"),
+    url(r'^restore/$', views.restore, name="restore"),
     url(r'^books-stats/$', views.BooksStatsView.as_view(), name="books-stats"),
     url(r'^authors-stats/$', views.AuthorsStatsView.as_view(), name="authors-stats"),
 

@@ -162,6 +162,15 @@ def love(request):
         return HttpResponseRedirect(request.POST['return'])
 
 
+def restore(request):
+    if request.method == 'POST':
+        book = Book.objects.get(title=request.POST['title'], author__name=request.POST['author'])
+        book_stat = BookStats.objects.get(user=request.user, book=book)
+        book_stat.state = BookStats.IN_PROGRESS
+        book_stat.save()
+        return HttpResponseRedirect("/stats/user/")
+
+
 def progress(request):
     if request.method == 'POST':
         book = Book.objects.get(title=request.POST['title'], author__name=request.POST['author'])

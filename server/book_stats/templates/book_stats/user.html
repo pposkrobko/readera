@@ -8,7 +8,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#forsake").popConfirm({
+            $(".forsake").popConfirm({
                 title: "Potwierdzenie",
                 content: "Czy na pewno chcesz porzucić tę książkę?",
                 placement: "top"
@@ -170,7 +170,7 @@
                                     <input type="hidden" value="{{ book_stats.book.title }}" name="title">
                                     <input type="hidden" value="{{ book_stats.book.author }}" name="author">
 
-                                    <button type="submit" class="btn btn-link" id="forsake">
+                                    <button type="submit" class="btn btn-link forsake">
                                         <span class="glyphicon glyphicon-trash" style="color: darkred"></span>
                                     </button>
                                 </form>

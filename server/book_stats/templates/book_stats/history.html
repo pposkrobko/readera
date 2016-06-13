@@ -95,6 +95,7 @@
                 <th>Ile dni <span class="glyphicon glyphicon-sort"></span></th>
                 <th>Przeczytane <span class="glyphicon glyphicon-sort"></span></th>
                 <th>Liczba stron dziennie <span class="glyphicon glyphicon-sort"></span></th>
+                <th>Przywróć</th>
             </tr>
             </thead>
             <tbody>
@@ -111,6 +112,17 @@
                         <td>{{ b.days }}</td>
                         <td>{{ b.onpage }}/{{ b.pages }} stron</td>
                         <td>{{ b.speed }}</td>
+                        <td>
+                            <form action="{% url 'restore' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ b.title }}" name="title">
+                                <input type="hidden" value="{{ b.author }}" name="author">
+
+                                <button type="submit" class="btn btn-link">
+                                    <span class="glyphicon glyphicon-repeat" style="color:darkgreen"></span>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 {% endif %}
             {% endfor %}
