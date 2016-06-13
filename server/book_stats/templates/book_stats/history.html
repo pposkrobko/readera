@@ -18,23 +18,28 @@
 {% endblock %}
 
 {% block style %}
-    #sort1 {
-    display: none;
-    }
 
     #forsaken {
-    background-color: sandybrown;
-    font-size: 85%;
-    font-weight: lighter;
+        background-color: sandybrown;
+        font-size: 85%;
+        font-weight: lighter;
     }
 
     .glyphicon-sort {
-    display: none;
+        display: none;
     }
 
     th:hover > .glyphicon-sort {
-    display: inline-block;
+        display: inline-block;
     }
+
+    .glyphicon-repeat:hover {
+        -ms-transform: rotate(360deg); /* IE 9 */
+        -webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
+        transform: rotate(360deg);
+        transition: 1s;
+    }
+
 {% endblock %}
 
 {% block content %}
