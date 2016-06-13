@@ -2,10 +2,9 @@
 
 {% block scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
 <script src="https://www.amcharts.com/lib/3/pie.js"></script>
 
 <script>
@@ -219,7 +218,7 @@
 <div class="well" style="margin-top: 20px">
     <h3>Oś czasu</h3>
     <p>Najwięcej stron jednego dnia: <strong> {{ pages_read__sum__max }}</strong></p>
-    <hr style="border: 1px solid lightgrey">
+    <hr>
     <h4 class="text-center">Liczba stron przeczytanych każdego dnia</h4>
     <div id="chartdiv"></div>
 </div>
@@ -229,7 +228,7 @@
     <p>Łącznie autorów: <strong> {{ book__author__count }}</strong> &middot;
         <a href="#" class="text-right" style="color: dimgrey">Zobacz wszystkich</a>
     </p>
-    <hr style="border: 1px solid lightgrey">
+    <hr>
     <h4 class="text-center">Liczba przeczytanych stron każdego autora</h4>
     <div id="piediv"></div>
 
