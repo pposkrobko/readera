@@ -19,28 +19,6 @@
     {% block scripts %}{% endblock %}
     <style>
         {% block style %}{% endblock %}
-        .backdrop {
-            position: fixed;
-            opacity: 0.5;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            background-color: black;
-            z-index: 665;
-        }
-
-        #register-login-form {
-            position: fixed;
-            display: none;
-            z-index: 665;
-            width: 100%;
-        }
-
-        .register-login-form-main {
-            position: relative;
-            z-index: 666;
-        }
 
         body {
             background-image: url(http://s3.amazonaws.com/spoonflower/public/design_thumbnails/0068/3366/rrrrrrimage_shop_preview.png);
@@ -70,17 +48,23 @@
             opacity: 0.5;
         }
 
-        {% include "register-form.css" %}
     </style>
 </head>
 
 <body>
+<div class="modal fade" id="register-form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!--
 <div id="register-login-form">
     <div class="backdrop"></div>
     <div class="register-login-form-main">
-        {% include "register-form.html" %}
+
     </div>
-</div>
+</div>-->
 
 <div class="container maintab">
     <div class="row">
@@ -103,9 +87,11 @@
                 </a>
                 {% else %}
                     <small>Jesteś niezalogowany</small>
-                    <a class="btn btn-link"
-                       onclick="document.getElementById('register-login-form').style.display='block';">
-                        <small>Zaloguj się lub zarejestruj</small>
+                    <a data-toggle="modal" type="button" class="btn btn-link"
+                       href="{% url 'register-form' %}" data-target="#register-form-modal" style="margin-bottom: 10px">
+                    <!--<a class="btn btn-link"
+                        onclick="document.getElementById('register-login-form').style.display='block';document.getElementById('register-login-form').style.opacity=0;document.getElementById('register-login-form').style.opacity=100;">
+                      -->  <small>Zaloguj się lub zarejestruj</small>
                     </a>
                 {% endif %}
             </div>

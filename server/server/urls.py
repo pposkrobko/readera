@@ -21,6 +21,8 @@ from server import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^register-form$', TemplateView.as_view(template_name="register-form.html"), name='register-form'),
+    url(r'^recover$', views.recoverRedirect, name='recover-redirect'),
     url(r'^register$', views.registerRedirect, name='register-redirect'),
     url(r'^login$', views.loginRedirect, name='login-redirect'),
     url(r'^logout$', views.logoutRedirect, name='logout-redirect'),

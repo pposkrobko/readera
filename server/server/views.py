@@ -7,6 +7,7 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html')
 
+
 # Create your views here.
 def loginRedirect(request):
     username = request.POST['username']
@@ -31,6 +32,15 @@ def registerRedirect(request):
     password = request.POST['password']
     User.objects.create_user(username, email, password)
     return HttpResponsePermanentRedirect("/")
+
+
+def recoverRedirect(request):
+    username = request.POST['username']
+    email = request.POST['email']
+    password = request.POST['password']
+    User.objects.create_user(username, email, password)
+    return HttpResponsePermanentRedirect("/")
+
 
 def logoutRedirect(request):
     logout(request)
